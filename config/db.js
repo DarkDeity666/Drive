@@ -1,7 +1,11 @@
 import mongoose from "mongoose";
-
-const Connection = mongoose.connect('mongodb://0.0.0.0/DriveDB').then(()=>{
-    console.log("Database Connected Successfully");
-});
-
-export default Connection;
+// import dotenv from "dotenv/config"; 
+function connectDB(){
+    mongoose.connect(process.env.MONGO_URI).then(()=>{
+        console.log("Database Connected Successfully");
+    }).catch((error)=>{
+        console.log("Database Connection Failed");
+        console.log(error);
+    });
+}
+export default connectDB;

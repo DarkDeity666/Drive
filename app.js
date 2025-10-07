@@ -16,9 +16,9 @@ const __dirname = dirname(__filename)
 
 app.set("view engine", "ejs")
 app.set("views", join(__dirname, "views"))
+connectDB();
 
 app.use('/user', userRouters)
-connectDB();
 
 
 const port = process.env.PORT || 3100;

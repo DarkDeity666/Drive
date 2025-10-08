@@ -2,6 +2,8 @@ import { Router } from "express";
 import { body, validationResult} from "express-validator";
 import userModel from "../models/user.model.js ";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";
 const router = Router();
 
 
@@ -22,11 +24,6 @@ body('password').trim().isLength({min:3})
     const newUser = await userModel.create({username:username,email:email,password:hashedPassword})
 
     res.json(newUser)
-
-
-    // console.log({username,email,password});
-    // res.send("user registered successfully")
-    // res.send(errors.array())
 })
 
 router.get('/login',(req,res)=>{
@@ -48,13 +45,21 @@ router.post('/login',
         if(!user){
             return res.status(400).send("Invalid Username or password")
         }
+
         const isMatch = await bcrypt.compare(password,user.password)
+
         if(!isMatch){
             return res.status(400).send("Invalid Username or password")
         }
+        const token = jwt.sign({userId: user._id,
+            username: user.username
+        }, process.env.JWT_SECRET)
+        
+        res.cookie('token', token)
+        res.send("User Logged In Successfully..!")
+        
     })
 export default router;
-
 
 
 

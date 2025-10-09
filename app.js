@@ -3,6 +3,7 @@ import dotenv from 'dotenv/config';
 import {dirname,join} from "path";
 import { fileURLToPath } from 'url';
 import userRouters from './routes/user.routes.js';
+import indexRouter from './routes/index.routes.js';
 import connectDB from './config/db.js';
 import cookieParser from 'cookie-parser';
 const app = express();
@@ -20,8 +21,9 @@ app.set("view engine", "ejs")
 app.set("views", join(__dirname, "views"))
 connectDB();
 
-app.use('/user', userRouters)
 
+app.use('/user', userRouters)
+app.use('/', indexRouter)
 
 const port = process.env.PORT || 3100;
 app.listen(port,()=>{

@@ -3,7 +3,6 @@ import { body, validationResult} from "express-validator";
 import userModel from "../models/user.model.js ";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import cookieParser from "cookie-parser";
 const router = Router();
 
 
@@ -57,6 +56,8 @@ router.post('/login',
         
         res.cookie('token', token)
         res.send("User Logged In Successfully..!")
+
+        
         
     })
 export default router;

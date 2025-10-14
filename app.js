@@ -1,5 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv/config';
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import fs from "fs";
+import multer from "multer";
 import {dirname,join} from "path";
 import { fileURLToPath } from 'url';
 import userRouters from './routes/user.routes.js';
@@ -21,6 +24,17 @@ app.set("view engine", "ejs")
 app.set("views", join(__dirname, "views"))
 connectDB();
 
+// multer middleware for handling file uploads
+const upload = multer({ dest: "uploads/" });
+
+// s3 client instead of google storage bucket
+const s3 = new S3Client({
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
+});
 
 app.use('/user', userRouters)
 app.use('/', indexRouter)

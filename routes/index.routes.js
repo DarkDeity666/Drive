@@ -5,8 +5,10 @@ import authMiddleware from "../middleware/auth.middelware.js";
 const router = express.Router();
 
 
-router.get("/home", authMiddleware,(req,res)=>{
-    res.render("home")
+router.get("/home", authMiddleware, async (req,res)=>{
+    const userFiles = await fileModel.find({user:req.user.userId});
+    console.log(userFiles);
+    res.render("home",{files: userFiles});
 })
 
 router.post("/upload-file",authMiddleware, upload.single('file'), async (req,res)=>{

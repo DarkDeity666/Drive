@@ -40,6 +40,15 @@
                 </div>
             </div>
         </div>
+        <br/>
+        <div class="files flex flex-col gap-2">
+            <% files.forEach((file) => { %>
+                <div class="p-2 rounded-md bg-gray-300 cursor-pointer">
+                    <h1><%= file.originalName %></h1>
+                </div>
+            <% }) %>
+        </div>
+
     </main>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
     <script>
